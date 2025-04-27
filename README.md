@@ -6,7 +6,7 @@ Automatic deployment of geoblocking using [firewalld](https://github.com/firewal
 
 * downloads either IPv4 or IPv6 IP ranges from [ipdeny.com](https://www.ipdeny.com/)
 * creates and fills an ipset based on your country list
-* creates and enables a rich rule to start dropping connections from specified address ranges
+* adds said ipset to a drop zone to drop all incoming connections from specified address ranges
 
 ## Usage
 
@@ -23,5 +23,5 @@ git clone https://github.com/anselmicz/firewalld-geoblock.git
 cd firewalld-geoblock/
 ./firewalld-geoblock.sh 4 cn hk in ir jp kp kr ru sg tr tw vn
 ./firewalld-geoblock.sh 6 cn hk in ir jp kr ru sg tr tw vn
-cd - && rm -rf firewalld-geoblock/
+#cd - && rm -rf firewalld-geoblock/
 ```

@@ -80,7 +80,7 @@ firewall-cmd --get-ipsets | grep "${BLACKLIST}" > /dev/null 2>&1
 if test "$?" == "0"
 then
 	firewall-cmd --permanent --delete-ipset="${BLACKLIST}" > /dev/null 2>&1 || STATE="FAIL"
-	firewall-cmd --permanent --remove-rich-rule="rule family=\"ipv${PROTOCOL}\" source ipset=\"ipv${PROTOCOL}-geoblock\" drop" > /dev/null 2>&1 || STATE="FAIL"
+	firewall-cmd --permanent --remove-source="ipset:ipv${PROTOCOL}-geoblock" --zone=drop > /dev/null 2>&1 || STATE="FAIL"
 fi
 ELEM="$(for country in ${COUNTRIES}; do cat ${TMPDIR}/ipv${PROTOCOL}/${country}.zone; done | wc -l)" || STATE="FAIL"
 if test "${PROTOCOL}" == "4"
@@ -100,9 +100,9 @@ do
 done
 state
 
-# Add rich rule to drop IPs from the ipset
-line "Creating a rich rule to drop IPs..."
-firewall-cmd --permanent --add-rich-rule="rule family=\"ipv${PROTOCOL}\" source ipset=\"ipv${PROTOCOL}-geoblock\" drop" > /dev/null 2>&1 || STATE="FAIL"
+# Add ipset to DROP zone
+line "Adding ipset to a DROP zone to drop connections..."
+firewall-cmd --permanent --add-source="ipset:ipv${PROTOCOL}-geoblock" --zone=drop > /dev/null 2>&1 || STATE="FAIL"
 firewall-cmd --reload > /dev/null 2>&1 || STATE="FAIL"
 state
 
