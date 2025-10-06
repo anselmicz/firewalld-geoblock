@@ -1,6 +1,12 @@
 #!/bin/bash
+# on Debian 11 (possibly 12):
 # make sure that FirewalldBackend is set to iptables (/etc/firewalld/firewalld.conf)
-# as of now, using nftables with large ipsets consumes way too much memory
+# using nftables with large ipsets consumes way too much memory (fixed in Debian 13)
+
+# Examples:
+# ./firewalld-geoblock.sh 4 cn hk in ir jp kp kr ru sg tr tw vn
+# ./firewalld-geoblock.sh 6 cn hk in ir jp kr ru sg tr tw vn
+
 PROTOCOL="$1"
 shift
 COUNTRIES="$@"
